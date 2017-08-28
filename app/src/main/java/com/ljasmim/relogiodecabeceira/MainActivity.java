@@ -48,8 +48,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.mViewHolder.mCheckBattery = (CheckBox) findViewById(R.id.check_battery);
         this.mViewHolder.mTextBatteryLevel = (TextView) findViewById(R.id.text_battery_level);
 
-        //Manter tela do aplicativo sempre ativa
+        //Manter tela do aplicativo sempre ativa e colocar fullscreen
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 
         //Acompanha um registro do sistema
         //Quando houver um evento ACTION_BATTERY_CHANGED será executado o método onReceive
