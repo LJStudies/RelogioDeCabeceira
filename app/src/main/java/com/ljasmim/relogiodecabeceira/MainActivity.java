@@ -1,5 +1,10 @@
 package com.ljasmim.relogiodecabeceira;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.BatteryManager;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +22,16 @@ public class MainActivity extends AppCompatActivity {
     private Runnable mRunnable;
     private boolean mIsRunnableStopped;
 
+    private BroadcastReceiver mBatteryReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //Pega o valor passado no Bundle da Intent
+            int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
+            //Exibe o valor na tela
+            mViewHolder.mTextBatteryLevel.setText(String.valueOf(level + "%"));
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,9 +44,15 @@ public class MainActivity extends AppCompatActivity {
         this.mViewHolder.mTextHourMinute = (TextView) findViewById(R.id.text_hour_minute);
         this.mViewHolder.mTextSeconds = (TextView) findViewById(R.id.text_seconds);
         this.mViewHolder.mCheckBattery = (CheckBox) findViewById(R.id.check_battery);
+        this.mViewHolder.mTextBatteryLevel = (TextView) findViewById(R.id.text_battery_level);
 
         //Manter tela do aplicativo sempre ativa
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        //Acompanha um registro do sistema
+        //Quando houver um evento ACTION_BATTERY_CHANGED será executado o método onReceive
+        // do nosso BroadcastReceiver, neste caso, mBatteryReceiver
+        this.registerReceiver(mBatteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 
     }
 
@@ -89,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
         TextView mTextHourMinute;
         TextView mTextSeconds;
         CheckBox mCheckBattery;
+        TextView mTextBatteryLevel;
     }
 
 }
