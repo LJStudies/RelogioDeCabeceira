@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="portugues">PORTUGUESE</string>
+    <string name="nivel_bateria">Battery Level</string>
 </resources>
