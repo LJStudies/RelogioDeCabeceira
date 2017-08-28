@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -47,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.mViewHolder.mTextSeconds = (TextView) findViewById(R.id.text_seconds);
         this.mViewHolder.mCheckBattery = (CheckBox) findViewById(R.id.check_battery);
         this.mViewHolder.mTextBatteryLevel = (TextView) findViewById(R.id.text_battery_level);
+        this.mViewHolder.mImageOptions = (ImageView) findViewById(R.id.image_options);
+        this.mViewHolder.mImageClose = (ImageView) findViewById(R.id.image_close);
+        this.mViewHolder.mLinearOptions = (LinearLayout) findViewById(R.id.linear_options);
 
         //Manter tela do aplicativo sempre ativa e colocar fullscreen
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -61,8 +66,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Inicia com checkbox marcado
         this.mViewHolder.mCheckBattery.setChecked(mIsBatteryOn);
 
-        //Ajustar o listener para o método OnClick da Classe
+        //Ajustar o listener para o método OnClick da Activity
+        this.setListenerClick();
+    }
+
+    private void setListenerClick() {
         this.mViewHolder.mCheckBattery.setOnClickListener(this);
+        this.mViewHolder.mImageOptions.setOnClickListener(this);
+        this.mViewHolder.mImageClose.setOnClickListener(this);
     }
 
     @Override
@@ -80,9 +91,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.check_battery){
-            this.toggleCheckBattery();
+        switch (view.getId()){
+            case R.id.check_battery:
+                this.toggleCheckBattery();
+                break;
+            case R.id.image_options:
+                this.toggleOptions();
+                break;
+            case R.id.image_close:
+                this.toggleOptions();
+                break;
+            default:
+                break;
         }
+    }
+
+    private void toggleOptions(){
+        int imageVisibility = this.mViewHolder.mImageOptions.getVisibility();
+        int menuVisibility = this.mViewHolder.mLinearOptions.getVisibility();
+
+        this.mViewHolder.mImageOptions.setVisibility(menuVisibility);
+        this.mViewHolder.mLinearOptions.setVisibility(imageVisibility);
     }
 
     private void toggleCheckBattery() {
@@ -137,6 +166,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView mTextSeconds;
         CheckBox mCheckBattery;
         TextView mTextBatteryLevel;
+        ImageView mImageOptions;
+        ImageView mImageClose;
+        LinearLayout mLinearOptions;
     }
 
 }
