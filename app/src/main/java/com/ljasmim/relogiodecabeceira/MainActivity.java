@@ -9,18 +9,20 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ViewHolder mViewHolder;
     private Handler mHandler; //Manipulador do Runnable
     private Runnable mRunnable;
     private boolean mIsRunnableStopped;
+    private boolean mIsBatteryOn = true;
 
     private BroadcastReceiver mBatteryReceiver = new BroadcastReceiver() {
         @Override
@@ -54,6 +56,11 @@ public class MainActivity extends AppCompatActivity {
         // do nosso BroadcastReceiver, neste caso, mBatteryReceiver
         this.registerReceiver(mBatteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 
+        //Inicia com checkbox marcado
+        this.mViewHolder.mCheckBattery.setChecked(mIsBatteryOn);
+
+        //Ajustar o listener para o método OnClick da Classe
+        this.mViewHolder.mCheckBattery.setOnClickListener(this);
     }
 
     @Override
@@ -67,6 +74,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         mIsRunnableStopped = true;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view.getId() == R.id.check_battery){
+            this.toggleCheckBattery();
+        }
+    }
+
+    private void toggleCheckBattery() {
+        if(this.mIsBatteryOn){
+            mIsBatteryOn = false;
+            this.mViewHolder.mTextBatteryLevel.setVisibility(View.GONE);
+        }else{
+            mIsBatteryOn = true;
+            this.mViewHolder.mTextBatteryLevel.setVisibility(View.VISIBLE);
+        }
     }
 
     private void startBedsideClock() {
