@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -28,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
         this.mViewHolder.mTextHourMinute = (TextView) findViewById(R.id.text_hour_minute);
         this.mViewHolder.mTextSeconds = (TextView) findViewById(R.id.text_seconds);
         this.mViewHolder.mCheckBattery = (CheckBox) findViewById(R.id.check_battery);
+
+        //Manter tela do aplicativo sempre ativa
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
     }
 
