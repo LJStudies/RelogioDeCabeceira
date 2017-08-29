@@ -25,6 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00:00"
+            android:textColor="@color/color_light_font"
             android:textSize="125sp" />
 
         <TextView
@@ -32,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00"
+            android:textColor="@color/color_light_font"
             android:textSize="40sp" />
 
     </LinearLayout>
@@ -40,42 +42,43 @@
         android:id="@+id/image_options"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_preferences"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:clickable="true"
         android:padding="20dp"
-        android:clickable="true"/>
+        android:src="@android:drawable/ic_menu_preferences" />
 
     <LinearLayout
         android:id="@+id/linear_options"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@color/color_options_menu"
         android:orientation="horizontal"
-        android:background="@color/color_options_menu">
+        android:visibility="gone">
 
         <CheckBox
             android:id="@+id/check_battery"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_weight="4"
             android:padding="30dp"
-            android:layout_marginLeft="10dp"
-            android:text="@string/nivel_bateria" />
+            android:text="@string/nivel_bateria"
+            android:textColor="@color/color_light_font"/>
 
         <ImageView
 
             android:id="@+id/image_close"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_weight="1"
+            android:clickable="true"
             android:padding="20dp"
 
-            android:clickable="true"/>
+            android:src="@android:drawable/ic_menu_close_clear_cancel" />
 
     </LinearLayout>
 

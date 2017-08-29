@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -63,11 +64,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // do nosso BroadcastReceiver, neste caso, mBatteryReceiver
         this.registerReceiver(mBatteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 
+        //Ajustar o listener para o método OnClick da Activity
+        this.setListenerClick();
+
         //Inicia com checkbox marcado
         this.mViewHolder.mCheckBattery.setChecked(mIsBatteryOn);
 
-        //Ajustar o listener para o método OnClick da Activity
-        this.setListenerClick();
+        //Desloca o menu de opções para baixo de acordo com um valor fixo incialmente
+        this.mViewHolder.mLinearOptions.animate().translationY(500);
     }
 
     private void setListenerClick() {
@@ -91,34 +95,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.check_battery:
                 this.toggleCheckBattery();
                 break;
             case R.id.image_options:
-                this.toggleOptions();
+                this.openMenu();
                 break;
             case R.id.image_close:
-                this.toggleOptions();
+                this.closeMenu();
                 break;
             default:
                 break;
         }
     }
 
-    private void toggleOptions(){
-        int imageVisibility = this.mViewHolder.mImageOptions.getVisibility();
-        int menuVisibility = this.mViewHolder.mLinearOptions.getVisibility();
+    private void closeMenu() {
+        float finalPosition = this.mViewHolder.mLinearOptions.getMeasuredHeight();
+        int mediumTimeTranslation = getResources().getInteger(android.R.integer.config_mediumAnimTime);
 
-        this.mViewHolder.mImageOptions.setVisibility(menuVisibility);
-        this.mViewHolder.mLinearOptions.setVisibility(imageVisibility);
+        //Anima a aparição
+        this.mViewHolder.mLinearOptions.animate()
+                .translationY(finalPosition)
+                .setDuration(mediumTimeTranslation);
+    }
+
+
+    private void openMenu() {
+        float finalPosition = 0;
+        int mediumTimeTranslation = getResources().getInteger(android.R.integer.config_mediumAnimTime);
+        //Torna elemento visível
+        this.mViewHolder.mLinearOptions.setVisibility(View.VISIBLE);
+
+        //Anima a aparição
+        this.mViewHolder.mLinearOptions.animate()
+                .translationY(finalPosition)
+                .setDuration(mediumTimeTranslation);
     }
 
     private void toggleCheckBattery() {
-        if(this.mIsBatteryOn){
+        if (this.mIsBatteryOn) {
             mIsBatteryOn = false;
             this.mViewHolder.mTextBatteryLevel.setVisibility(View.GONE);
-        }else{
+        } else {
             mIsBatteryOn = true;
             this.mViewHolder.mTextBatteryLevel.setVisibility(View.VISIBLE);
         }
@@ -133,16 +152,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void run() {
 
                 //Se a thread estiver parada não realiza a execução
-                if(mIsRunnableStopped)
+                if (mIsRunnableStopped)
                     return;
 
                 //Captura a hora do sistema
                 calendar.setTimeInMillis(System.currentTimeMillis());
 
                 //Obtém as strings do horário
-                String hourMinutesFormat = String.format("%02d:%02d", calendar.get(Calendar.HOUR_OF_DAY),
+                String hourMinutesFormat = String.format(Locale.getDefault(), "%02d:%02d", calendar.get(Calendar.HOUR_OF_DAY),
                         calendar.get(Calendar.MINUTE));
-                String secondsFormat = String.format("%02d", calendar.get(Calendar.SECOND));
+                String secondsFormat = String.format(Locale.getDefault(), "%02d", calendar.get(Calendar.SECOND));
 
                 //Ajusta os valores dos itens de layout
                 mViewHolder.mTextHourMinute.setText(hourMinutesFormat);

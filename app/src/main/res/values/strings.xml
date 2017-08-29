@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RelogioDeCabeceira</string>
+    <string name="app_name">BedSide Clock</string>
 
     <string name="nivel_bateria">Nível da Bateria</string>
 </resources>
